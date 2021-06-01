@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:proyecto_tfg/ui/listUser_screen.dart';
 import 'package:proyecto_tfg/utils/Authentication.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -30,7 +32,24 @@ class _MyHomePageState extends State<MyHomePage> {
     final authService = Provider.of<AuthService>(context);
     return Scaffold(
         body: profileView(
-            authService) // This trailing comma makes auto-formatting nicer for build methods.
+            authService),
+        drawer: Drawer(
+          child: new ListView(
+            children: <Widget>[
+              UserAccountsDrawerHeader(
+                accountName: Text("${authService.user.displayName}"),
+                accountEmail: Text("${authService.user.email}"),
+                currentAccountPicture: CircleAvatar(child:ClipOval(child:Image.network('${authService.user.photoURL}'))),
+                decoration: BoxDecoration(color: Color(0xFF17202A)),
+              ),
+              ListTile(
+                title: Text('Lista de Favoritos'),
+                leading: Icon(Icons.list_alt),
+                onTap:() => Navigator.push(context, MaterialPageRoute(builder: (context) => ListUserGasoil())),
+              )
+            ],            
+          )
+        ), // This trailing comma makes auto-formatting nicer for build methods.
         );
   }
 
@@ -117,25 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       border: Border.all(width: 1.0, color: Colors.white70)),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 5, 20, 4),
-                child: Container(
-                  height: 60,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'Phone number',
-                        style: TextStyle(color: Colors.white70),
-                      ),
-                    ),
-                  ),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                      border: Border.all(width: 1.0, color: Colors.white70)),
-                ),
-              ),
+              Padding(padding: EdgeInsets.all(110.0)),
               RawMaterialButton(
                 onPressed: ()  => authService.signOut(),
                 fillColor: Color(0xFF566573),

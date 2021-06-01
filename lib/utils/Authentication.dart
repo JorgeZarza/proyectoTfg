@@ -80,6 +80,7 @@ class AuthService with ChangeNotifier {
           idToken: googleAuth.idToken,
           accessToken: googleAuth.accessToken,
         );
+        
       UserCredential authResult = await _auth.signInWithCredential(credential);
       User user = authResult.user;
       await updateUserData(user);

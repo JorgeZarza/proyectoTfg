@@ -196,7 +196,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           .collection('listaFavoritos')
                           .doc(authService.user.id)
                           .update({
-                            'Gasolinera (${g.id})' as String: '${g.rotulo} en ${g.municipio}' as String
+                            'Gasolinera (${g.id})' as String: '${g.rotulo} ${g.municipio}' as String,
                       }),
                       Fluttertoast.showToast(
                           msg: 'Gasolinera añadida a tu lista de favoritos')
