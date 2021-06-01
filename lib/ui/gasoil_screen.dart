@@ -89,10 +89,11 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Stack(
             children: <Widget>[
               CircleAvatar(
-                radius: 70,
+                backgroundColor: Colors.white,
+                radius: 75,
                 child: ClipOval(
                   child: Image.asset(
-                    'assets/REPYF.png',
+                    'assets/icone.png',
                     height: 150,
                     width: 150,
                     fit: BoxFit.cover,

@@ -54,7 +54,6 @@ class MapPageState extends State<MapPage> {
     // crea una instancia de Location
     location = new Location();
     GasolinerasDatabase.instance;
-    GasolinerasDatabase.instance.deleteAll();
     // suscribirse a los cambios en la ubicación del usuario
     // "escuchando" el evento onLocationChanged de la ubicación
     location.onLocationChanged.listen((LocationData cLoc) {
@@ -147,7 +146,7 @@ class MapPageState extends State<MapPage> {
         // updated position
         var pinPosition =
             LatLng(currentLocation.latitude, currentLocation.longitude);
-
+        GasolinerasDatabase.instance.deleteAll();
         // el truco es eliminar el marcador (por id)
         // y agregarlo nuevamente en la ubicación actualizada
         _markers.removeWhere((m) => m.markerId.toString() == 'sourcePin');
@@ -163,9 +162,7 @@ class MapPageState extends State<MapPage> {
     GeoFirePoint center = geo.point(
         latitude: currentLocation.latitude,
         longitude: currentLocation.longitude);
-    GeoPoint geoGas;
     var collectionReference = _firestore.collection('localizaciones');
-    var pinPosition;
     double radius = 15;
     String precioGasoA,
         precioGasoB,
@@ -191,7 +188,7 @@ class MapPageState extends State<MapPage> {
             .limit(1);
         document.get().then((value) {
           if (value.docs.length > 0) {
-            geoGas = value.docs[0].data()['latitud/longitud'];
+            GeoPoint geoGas = value.docs[0].data()['latitud/longitud'];
             precioGasoA = value.docs[0].data()['precioGasoleoA'];
             precioGasoB = value.docs[0].data()['precioGasoleoB'];
             precioGaso95 = value.docs[0].data()['precioGasolina95'];
@@ -212,7 +209,7 @@ class MapPageState extends State<MapPage> {
                 precioGaso95,
                 precioGaso98);
 
-            pinPosition = LatLng(geoGas.latitude, geoGas.longitude);
+           var pinPosition = LatLng(geoGas.latitude, geoGas.longitude);
                     _markers.add(Marker(
                         markerId: MarkerId('${g.id}${g.latitud}'),
                         position: pinPosition, // posición actualizada
@@ -223,7 +220,7 @@ class MapPageState extends State<MapPage> {
                                 'Sin Plomo 95: ${g.precioGasolina95} Gasoleo A: ${g.precioGasoleoA}')));
 
             GasolinerasDatabase.instance
-                .hayGasolineraEnBd(geohash)
+                .hayGasolineraEnBd(g.geohash)
                 .then((value) {
               if (!value) {
                     GasolinerasDatabase.instance.create(g);

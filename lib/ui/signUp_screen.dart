@@ -1,7 +1,7 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:proyecto_tfg/utils/constant.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -296,27 +296,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void _signInWithEmailAndPassword(AuthService authService) async {
-    dynamic result = await authService.createNewUser(myControllerEmail.text, myControllerPassword.text,myControllerName.text + myControllerLastName.text);
-    if (result == null){
-      print('Email is not valid');
-    }
-    else {
-      final User user = (await _auth.signInWithEmailAndPassword(
-      email: myControllerEmail.text,
-      password: myControllerPassword.text,
-    )).user;
-
-    if (user != null) {
-      setState(() {
-        authService.updateUserData(user);
-        authService.notifyListeners();
-        Navigator.pop(context);
-      });
+    if (myControllerPassword.text != myControllerPassword2.text) {
+      Fluttertoast.showToast(msg: 'Las contraseñas no coinciden');
     } else {
-      setState(() {
-        _success = false;
-      });
-    }
+      dynamic result = await authService.createNewUser(
+          myControllerEmail.text,
+          myControllerPassword.text,
+          myControllerName.text + myControllerLastName.text);
+      if (result == null) {
+        print('Email is not valid');
+      } else {
+        final User user = (await _auth.signInWithEmailAndPassword(
+          email: myControllerEmail.text,
+          password: myControllerPassword.text,
+        ))
+            .user;
+
+        if (user != null) {
+          setState(() {
+            authService.updateUserData(user);
+            authService.notifyListeners();
+            Navigator.pop(context);
+          });
+        } else {
+          setState(() {
+            _success = false;
+          });
+        }
+      }
     }
   }
 }

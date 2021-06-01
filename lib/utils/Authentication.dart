@@ -2,6 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:proyecto_tfg/models/user.dart';
 
@@ -46,8 +47,8 @@ class AuthService with ChangeNotifier {
     _status = AuthStatus.Authenticated;
     return userData;
 
-    }catch(e){
-      print(e.toString());
+    }catch(FirebaseAuthException){
+      Fluttertoast.showToast(msg: FirebaseAuthException.toString());
     }
     
   }
@@ -84,6 +85,7 @@ class AuthService with ChangeNotifier {
       UserCredential authResult = await _auth.signInWithCredential(credential);
       User user = authResult.user;
       await updateUserData(user);
+      return user;
     } catch (e) {
       _status = AuthStatus.Uninitialized;
       notifyListeners();
