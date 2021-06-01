@@ -1,0 +1,49 @@
+name: proyecto_tfg
+description: A new Flutter project.
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+      sdk: flutter
+  cupertino_icons: ^1.0.2
+  cloud_firestore: ^2.1.0
+  firebase_core: ^1.1.1
+  google_maps_flutter: ^2.0.1
+  location: ^4.1.1
+  flutter_polyline_points: ^1.0.0
+  firebase_database: ^6.1.2
+  google_sign_in: ^4.4.4
+  firebase_auth: ^1.1.4
+  provider: ^5.0.0
+  condition: ^0.0.8
+  line_awesome_flutter: ^1.0.1
+  flutter_screenutil: ^1.0.2
+  animated_theme_switcher: ^2.0.1
+  fluttertoast: ^3.1.0 
+  http: ^0.13.3
+  geoflutterfire: ^3.0.0-nullsafety.4
+  sqflite: ^2.0.0+3
+  path: ^1.8.0
+  path_provider: ^2.0.2
+  intl: ^0.17.0
+  flutter_staggered_grid_view: ^0.4.0
+  flutter_svg: ^0.22.0
+  
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+    
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
+
+  
